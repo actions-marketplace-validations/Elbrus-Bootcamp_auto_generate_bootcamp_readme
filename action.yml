@@ -1,0 +1,21 @@
+name: 'Generate README from YouTube Playlist'
+description: 'Generates a README.md file based on a YouTube playlist using the YouTube Data API'
+author: 'Aleksey Sidorov @tararatel'
+inputs:
+  playlist_id:
+    description: 'ID of the YouTube playlist'
+    required: true
+  api_key:
+    description: 'YouTube Data API key'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: pip install google-api-python-client
+      shell: bash
+
+    - run: python scripts/generate_readme.py
+      shell: bash
+      env:
+        PLAYLIST_ID: ${{ inputs.playlist_id }}
+        API_KEY: ${{ inputs.api_key }}
