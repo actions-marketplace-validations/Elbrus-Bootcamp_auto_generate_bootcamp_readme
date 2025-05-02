@@ -14,7 +14,7 @@ runs:
     - run: pip install google-api-python-client
       shell: bash
 
-    - run: python scripts/generate_readme.py
+    - run: python $GITHUB_ACTION_PATH/scripts/generate_readme.py
       shell: bash
       env:
         PLAYLIST_ID: ${{ inputs.playlist_id }}
