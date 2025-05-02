@@ -96,6 +96,7 @@ def update_readme():
     with open(README_PATH, "r", encoding="utf-8") as f:
         old_content = f.read()
 
+    # Удаляем старые секции фаз
     new_content = re.sub(
         r"<!-- BEGIN PHASE.*?-->.*?<!-- END PHASE.*-->",
         "",
@@ -103,6 +104,7 @@ def update_readme():
         flags=re.DOTALL
     )
 
+    # Удаляем старое сгенерированное содержимое
     new_content = re.sub(
         r"<!-- BEGIN GENERATED CONTENT -->.*?<!-- END GENERATED CONTENT -->",
         "",
@@ -110,7 +112,20 @@ def update_readme():
         flags=re.DOTALL
     )
 
-    final_content = generated_content + "\n\n" + new_content
+    # Извлекаем только секцию "Дополнительные материалы"
+    additional_content = ""
+    match = re.search(r"## 📎 Дополнительные материалы.*", new_content, re.DOTALL)
+    if match:
+        additional_content = match.group(0)
+
+    # Формируем итоговое содержимое
+    final_content = (
+        "# 📚 Навигация по репозиторию\n\n"
+        "<!-- BEGIN GENERATED CONTENT -->\n"
+        + generated_content
+        + "<!-- END GENERATED CONTENT -->\n\n"
+        + additional_content
+    )
 
     with open(README_PATH, "w", encoding="utf-8") as f:
         f.write(final_content)
