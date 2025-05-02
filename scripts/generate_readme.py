@@ -35,7 +35,7 @@ def get_youtube_videos():
     return videos
 
 def generate_course_structure(videos):
-    content = "# 📚 Структура курса\n\n"
+    content = ""
     phases = [p for p in os.listdir() if p.startswith("phase-")]
 
     for phase in sorted(phases, key=lambda x: int(x.split('-')[1])):
@@ -55,7 +55,6 @@ def generate_course_structure(videos):
             topics_path = os.path.join(phase, week)
             print(f"Сканирование папки: {topics_path}")
             print(f"Содержимое: {os.listdir(topics_path)}")
-            # Фильтруем папки, начинающиеся с числа (например, '1-nodejs', '2-arrays')
             topics = sorted(
                 [
                     t for t in os.listdir(topics_path)
@@ -67,10 +66,8 @@ def generate_course_structure(videos):
 
             for topic in topics:
                 topic_path = os.path.join(phase, week, topic)
-                # Извлекаем номер дня из начала имени (например, '1' из '1-nodejs')
                 match = re.match(r"^(\d+)", topic)
                 topic_day = match.group(1) if match else "0"
-                # Форматируем заголовок, убирая номер и заменяя дефисы на пробелы
                 topic_title = re.sub(r"^\d+[-_]", "", topic).replace("-", " ").title()
 
                 topic_key = f"p{phase_num}w{week_num}d{topic_day}"
